@@ -1,11 +1,11 @@
 from src.masks import get_mask_account, get_mask_card_number
 from src.processing import filter_by_state, sort_by_date
 
-card_num = input("Введите номер карты: ")
-print(get_mask_card_number(card_num))
+to_mask = input("Введите номер карты: ")
+print(get_mask_card_number(to_mask))
 
-card_num_1 = input("Введите номер счёта: ")
-print(get_mask_account(card_num_1))
+to_mask_card = input("Введите номер счёта: ")
+print(get_mask_account(to_mask_card))
 
 if __name__ == "__main__":
     print(
