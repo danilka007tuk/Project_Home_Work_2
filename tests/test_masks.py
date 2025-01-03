@@ -1,10 +1,14 @@
+from typing import Union
+
 import pytest
 
 from src.masks import get_mask_account, get_mask_card_number
 
-@pytest.mark.parametrize("to_mask, expected",[("8675874657756475", "8675 87** **** 6475"),
-                                                   ("7000792289606361", "7000 79** **** 6361")])
-def test_get_mask_card_number(to_mask, expected):
+
+@pytest.mark.parametrize(
+    "to_mask, expected", [("8675874657756475", "8675 87** **** 6475"), ("7000792289606361", "7000 79** **** 6361")]
+)
+def test_get_mask_card_number(to_mask, expected: Union[str]) -> None:
     assert get_mask_card_number(to_mask) == expected
 
 

@@ -3,7 +3,6 @@ import pytest
 from src.widget import get_new_data, mask_account_card
 
 
-
 def test_mask_account_card(new_card: str) -> None:
     assert mask_account_card(new_card) == "Visa Platinum 7000 79** **** 6361"
 
