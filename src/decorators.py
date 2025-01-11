@@ -7,6 +7,7 @@ def log(predicate, error_message, filename: str = ""):
     В случае ошибки выводится сообщение error_message.
     Декоратор отмечает начало работы функции, выводит результат и
     сообщает об окончание работы"""
+
     def my_decorators_error(function):
         @wraps(function)
         def wrapper(*args, **kwargs):
@@ -21,9 +22,11 @@ def log(predicate, error_message, filename: str = ""):
             else:
                 print("Getting started with the " + f"{function}"[1:-23])
                 result = function(*args, **kwargs)
-                print("Shutting down the function")
+                print(f"{result}\nShutting down the function")
             return result
+
         return wrapper
+
     return my_decorators_error
 
 
@@ -41,3 +44,6 @@ def predicate_is_sort(arg, arg2: bool = True):
         {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
         {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
     ]
+
+
+
