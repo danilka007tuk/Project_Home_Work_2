@@ -10,6 +10,7 @@ def get_mask_card_number(to_mask: Union[str]) -> Union[str]:
     return f"{to_mask[:4]} {to_mask[4:6]}** **** {to_mask[-4:]}"
 
 
+# @log(predicate_is_account, "Отсутствует аргумент ввода")
 def get_mask_account(to_mask_card: Union[str]) -> Union[str]:
     """Функция принимает на вход номер счёта и возвращает его маску"""
     if to_mask_card == "":
