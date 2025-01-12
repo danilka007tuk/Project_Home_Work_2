@@ -1,28 +1,36 @@
 from functools import wraps
 
 
-def log(predicate, error_message, filename: str = ""):
-    """Декоратор log принимает функцию предикат, сообщение об ошибке и
-    путь к файлу. Функция предикат может проверять выходные данные функции.
-    В случае ошибки выводится сообщение error_message.
-    Декоратор отмечает начало работы функции, выводит результат и
-    сообщает об окончание работы"""
-
+def log(filename=None):
     def my_decorators_error(function):
         @wraps(function)
         def wrapper(*args, **kwargs):
-            if not predicate(*args, **kwargs):
-                with open(filename, "a+") as file:
-                    file.write(f"{function}\nError:{error_message}\nInputs: {args}, {str(kwargs)}\n")
-                raise ValueError(error_message)
-            elif filename != "":
+            try:
+                if filename:
+                    with open(filename, "a") as file:
+                        file.write(f"{function.__name__}: inputs: {args}, kwargs: {kwargs}\n")
+                else:
+                    print(f"Запуск функции {function.__name__}, Inputs: {args}, kwargs: {kwargs}")
+
                 result = function(*args, **kwargs)
-                with open(filename, "a+") as file:
-                    file.write(f"{function} ok\n")
-            else:
-                print("Getting started with the " + f"{function}"[1:-23])
-                result = function(*args, **kwargs)
-                print(f"{result}\nShutting down the function")
+
+                if filename:
+                    with open(filename, "a") as file:
+                        file.write(f"{function.__name__} ok: {result}\n")
+                else:
+                    print(f"Результат: {result}")
+                    print(f"Функция {function.__name__} успешно выполнена.")
+
+                return result
+
+            except Exception as e:
+                error_message = f"Ошибка в функции {function.__name__}: {e}"
+                if filename:
+                    with open(filename, "a") as file:
+                        file.write(error_message + "\n")
+                else:
+                    print(error_message)
+                raise
             return result
 
         return wrapper
@@ -30,20 +38,14 @@ def log(predicate, error_message, filename: str = ""):
     return my_decorators_error
 
 
-def predicate_is_filter(arg, arg2):
-    return arg, arg2 == [
-        {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
-        {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
-    ]
+@log()
+def my_function(x, y):
+    return x + y
 
 
-def predicate_is_sort(arg, arg2: bool = True):
-    return arg, arg2 == [
-        {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
-        {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
-        {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
-        {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
-    ]
+@log()
+def error_function(x, y):
+    raise ValueError("error")
 
 
-
+my_function(1, 3)
