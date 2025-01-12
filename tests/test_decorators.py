@@ -1,28 +1,23 @@
-from src.processing import filter_by_state, sort_by_date
+from src.decorators import error_function, my_function
 
 
-def test_filter_by_state_log(capsys, last_dict):
-    filter_by_state(last_dict, "EXECUTED")
+def test_my_function(capsys):
+    my_function(1, 3)
     captured = capsys.readouterr()
     assert captured.out == (
-        "Getting started with the function filter_by_state\n"
-        + "[{'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'}, "
-        + "{'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'}]\n"
-        + "Shutting down the function\n"
+        "Запуск функции my_function, Inputs: (1, 3), kwargs: {}\n"
+        "Результат: 4\n"
+        "Функция my_function успешно выполнена.\n"
     )
 
 
-def test_sort_by_date_log(capsys, sort_list, arg2: bool = True):
-    sort_by_date(sort_list, arg2)
+def test_error_function(capsys):
+    try:
+        error_function(1, 3)
+    except ValueError:
+        pass
     captured = capsys.readouterr()
-    assert captured.out == (
-        "Getting started with the function sort_by_date\n" +
-        "[{'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'}, " +
-        "{'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}, " +
-        "{'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'}, " +
-        "{'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'}]\n" +
-        "Shutting down the function\n"
+    assert (
+        captured.out
+        == "Запуск функции error_function, Inputs: (1, 3), kwargs: {}\nОшибка в функции error_function: error\n"
     )
-
-
-
