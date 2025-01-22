@@ -1,13 +1,15 @@
 from functools import wraps
+from typing import Any, Callable, Optional
 
 
-def log(filename=None):
+def log(filename: Optional[str] = None) -> Callable:
     """Декоратор log который автоматически регистрирует детали выполнения функций,
     имя функции, передаваемые аргументы,
     результат выполнения и информация об ошибках"""
-    def my_decorators_error(function):
+
+    def my_decorators_error(function: Callable) -> Callable:
         @wraps(function)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args: tuple, **kwargs: dict) -> Any:
             try:
                 if filename:
                     with open(filename, "a") as file:
@@ -42,13 +44,10 @@ def log(filename=None):
 
 
 @log()
-def my_function(x, y):
+def my_function(x: int, y: int) -> int:
     return x + y
 
 
 @log()
-def error_function(x, y):
+def error_function(x: int, y: int) -> int:
     raise ValueError("error")
-
-
-my_function(1, 3)
