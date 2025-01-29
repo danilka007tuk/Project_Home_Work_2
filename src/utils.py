@@ -1,14 +1,22 @@
 import json
-import logging
+import os
 from pathlib import Path
 from typing import Any
 
-logger = logging.getLogger(__name__)
-file_handler = logging.FileHandler("logs/utils.log", "w+")
-file_formatter = logging.Formatter("%(asctime)s %(name)s %(levelname)s: %(message)s")
-file_handler.setFormatter(file_formatter)
-logger.addHandler(file_handler)
-logger.setLevel(logging.DEBUG)
+from src.logging import get_logger
+
+# logger = logging.getLogger(__name__)
+# log_path ="./logs/utils.log"
+# log_path = "." + log_path
+# file_handler = logging.FileHandler(log_path, "w+")
+# file_formatter = logging.Formatter("%(asctime)s %(name)s %(levelname)s: %(message)s")
+# file_handler.setFormatter(file_formatter)
+# logger.addHandler(file_handler)
+# logger.setLevel(logging.DEBUG)
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+file_path_1 = os.path.join(current_dir, "../logs", "utils.log")
+logger = get_logger("utils", file_path_1)
 
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
