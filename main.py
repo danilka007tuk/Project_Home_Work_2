@@ -97,7 +97,7 @@ transactions = [
 ]
 
 
-usd_transactions = filter_by_currency(transactions, "USD")
+usd_transactions = filter_by_currency(transactions, "RUB")
 for transaction in usd_transactions:
     print(transaction)
 
@@ -115,8 +115,8 @@ my_function(1, 3)
 
 my_function(4, 3)
 
-
-print(operation("operations"))
+transactions_list = "operations"
+print(operation(transactions_list))
 
 
 # current_dir = os.path.dirname(os.path.abspath(__file__))
